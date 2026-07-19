@@ -12,4 +12,13 @@ class StudyProgram extends Model
     {
         return $this->belongsTo(Faculty::class);
     }
+        public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    public function lecturers()
+    {
+        return $this->hasMany(Lecturer::class);
+    }
 }
