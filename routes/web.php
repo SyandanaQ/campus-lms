@@ -6,6 +6,7 @@ use App\Http\Controllers\StudyProgramController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\LecturerController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -28,5 +29,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('courses', CourseController::class);
     Route::resource('academic-years', AcademicYearController::class);
     Route::resource('lecturers', LecturerController::class);
+    Route::resource('students', StudentController::class);
 });
 require __DIR__.'/auth.php';
