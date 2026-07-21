@@ -9,6 +9,7 @@ use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\LecturerClassController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,5 +41,10 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::post('/kelas-tersedia/{class}/ambil', [EnrollmentController::class, 'store'])->name('enrollments.store');
     Route::get('/krs-saya', [EnrollmentController::class, 'myEnrollments'])->name('enrollments.my');
     Route::delete('/krs-saya/{enrollment}', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
+});
+
+Route::middleware(['auth', 'role:dosen'])->group(function () {
+    Route::get('/kelas-saya', [LecturerClassController::class, 'index'])->name('lecturer-classes.index');
+    Route::get('/kelas-saya/{class}', [LecturerClassController::class, 'show'])->name('lecturer-classes.show');
 });
 require __DIR__.'/auth.php';
