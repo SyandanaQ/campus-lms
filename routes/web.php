@@ -8,6 +8,7 @@ use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ClassRoomController;
+use App\Http\Controllers\EnrollmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,5 +33,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('lecturers', LecturerController::class);
     Route::resource('students', StudentController::class);
     Route::resource('classes', ClassRoomController::class)->parameters(['classes' => 'class']);
+});
+
+Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
+    Route::get('/kelas-tersedia', [EnrollmentController::class, 'available'])->name('enrollments.available');
+    Route::post('/kelas-tersedia/{class}/ambil', [EnrollmentController::class, 'store'])->name('enrollments.store');
+    Route::get('/krs-saya', [EnrollmentController::class, 'myEnrollments'])->name('enrollments.my');
+    Route::delete('/krs-saya/{enrollment}', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
 });
 require __DIR__.'/auth.php';
