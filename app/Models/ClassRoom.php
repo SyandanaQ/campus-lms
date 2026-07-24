@@ -34,4 +34,9 @@ class ClassRoom extends Model
     {
         return $this->hasMany(Material::class, 'class_id')->orderBy('order');
     }
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class, 'class_id');
+    }
 }

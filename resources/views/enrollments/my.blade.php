@@ -39,10 +39,10 @@
                                 <td class="py-2">{{ $enrollment->classRoom->lecturer->user->name }}</td>
                                 <td class="py-2">{{ $enrollment->classRoom->academicYear->year }}</td>
                                 <td class="py-2 capitalize">{{ $enrollment->status }}</td>
-                                <td class="py-2">
-    <a href="{{ route('student-materials.index', $enrollment->classRoom) }}" class="text-blue-600 hover:underline text-sm">Lihat Materi</a>
-</td>
-                                <td class="py-2">
+<td class="py-2">
+    <a href="{{ route('student-materials.index', $enrollment->classRoom) }}" class="text-blue-600 hover:underline text-sm">Materi</a>
+    <a href="{{ route('student-assignments.index', $enrollment->classRoom) }}" class="text-blue-600 hover:underline text-sm ml-2">Tugas</a>
+</td>                                <td class="py-2">
                                     <form action="{{ route('enrollments.destroy', $enrollment) }}" method="POST" onsubmit="return confirm('Yakin batalkan KRS ini?')">
                                         @csrf
                                         @method('DELETE')
