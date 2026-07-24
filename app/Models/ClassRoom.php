@@ -39,4 +39,9 @@ class ClassRoom extends Model
     {
         return $this->hasMany(Assignment::class, 'class_id');
     }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class, 'class_id');
+    }
 }

@@ -17,7 +17,7 @@ class Student extends Model
     {
         return $this->belongsTo(StudyProgram::class);
     }
-    
+
         public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
@@ -26,5 +26,10 @@ class Student extends Model
     public function assignmentSubmissions()
     {
         return $this->hasMany(AssignmentSubmission::class);
+    }
+
+    public function quizAttempts()
+    {
+        return $this->hasMany(QuizAttempt::class);
     }
 }
