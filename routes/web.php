@@ -16,6 +16,8 @@ use App\Http\Controllers\LecturerAssignmentController;
 use App\Http\Controllers\StudentAssignmentController;
 use App\Http\Controllers\LecturerQuizController;
 use App\Http\Controllers\StudentQuizController;
+use App\Http\Controllers\LecturerGradeController;
+use App\Http\Controllers\StudentGradeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -54,6 +56,7 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::get('/kuis/{quiz}/kerjakan', [StudentQuizController::class, 'show'])->name('student-quizzes.show');
     Route::post('/kuis/{quiz}/submit', [StudentQuizController::class, 'submit'])->name('student-quizzes.submit');
     Route::get('/kuis/{quiz}/hasil-saya', [StudentQuizController::class, 'result'])->name('student-quizzes.result');
+    Route::get('/nilai-saya', [StudentGradeController::class, 'index'])->name('student-grades.index');
 });
 
 Route::middleware(['auth', 'role:dosen'])->group(function () {
@@ -73,5 +76,7 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
     Route::post('/kuis/{quiz}/soal', [LecturerQuizController::class, 'storeQuestion'])->name('quiz-questions.store');
     Route::delete('/soal/{question}', [LecturerQuizController::class, 'destroyQuestion'])->name('quiz-questions.destroy');
     Route::get('/kuis/{quiz}/hasil', [LecturerQuizController::class, 'results'])->name('quizzes.results');
+    Route::get('/kelas-saya/{class}/nilai', [LecturerGradeController::class, 'index'])->name('final-grades.index');
+    Route::post('/kelas-saya/{class}/nilai', [LecturerGradeController::class, 'store'])->name('final-grades.store');
 });
 require __DIR__.'/auth.php';

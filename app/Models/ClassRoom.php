@@ -44,4 +44,9 @@ class ClassRoom extends Model
     {
         return $this->hasMany(Quiz::class, 'class_id');
     }
+
+    public function finalGrades()
+    {
+        return $this->hasMany(FinalGrade::class, 'class_id');
+    }
 }

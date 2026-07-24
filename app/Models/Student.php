@@ -32,4 +32,9 @@ class Student extends Model
     {
         return $this->hasMany(QuizAttempt::class);
     }
+
+    public function finalGrades()
+    {
+        return $this->hasMany(FinalGrade::class);
+    }
 }

@@ -63,6 +63,7 @@
                 <p class="px-3 pt-4 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Perkuliahan</p>
                 <a href="{{ route('enrollments.available') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ $linkClass(request()->routeIs('enrollments.available')) }}">Kelas Tersedia</a>
                 <a href="{{ route('enrollments.my') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ $linkClass(request()->routeIs('enrollments.my')) }}">KRS Saya</a>
+                <a href="{{ route('student-grades.index') }}" class="flex items-center px-3 py-2 text-sm font-medium rounded-md {{ $linkClass(request()->routeIs('student-grades.index')) }}">Nilai Saya</a>
             @endrole
 
         </nav>
