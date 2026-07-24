@@ -27,6 +27,7 @@
                             <th class="py-2">Dosen</th>
                             <th class="py-2">Tahun Ajaran</th>
                             <th class="py-2">Status</th>
+                            <th class="py-2">Materi</th>
                             <th class="py-2 w-32">Aksi</th>
                         </tr>
                     </thead>
@@ -38,6 +39,9 @@
                                 <td class="py-2">{{ $enrollment->classRoom->lecturer->user->name }}</td>
                                 <td class="py-2">{{ $enrollment->classRoom->academicYear->year }}</td>
                                 <td class="py-2 capitalize">{{ $enrollment->status }}</td>
+                                <td class="py-2">
+    <a href="{{ route('student-materials.index', $enrollment->classRoom) }}" class="text-blue-600 hover:underline text-sm">Lihat Materi</a>
+</td>
                                 <td class="py-2">
                                     <form action="{{ route('enrollments.destroy', $enrollment) }}" method="POST" onsubmit="return confirm('Yakin batalkan KRS ini?')">
                                         @csrf

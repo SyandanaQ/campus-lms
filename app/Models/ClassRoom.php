@@ -29,4 +29,9 @@ class ClassRoom extends Model
     {
         return $this->hasMany(Enrollment::class, 'class_id');
     }
+
+    public function materials()
+    {
+        return $this->hasMany(Material::class, 'class_id')->orderBy('order');
+    }
 }
