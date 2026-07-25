@@ -14,7 +14,8 @@
     <a href="{{ route('materials.index', $class) }}" class="ml-4 text-blue-600 hover:underline">Kelola Materi</a>
     <a href="{{ route('assignments.index', $class) }}" class="ml-4 text-blue-600 hover:underline">Kelola Tugas</a>
     <a href="{{ route('quizzes.index', $class) }}" class="ml-4 text-blue-600 hover:underline">Kelola Kuis</a>
-    <a href="{{ route('final-grades.index', $class) }}" class="ml-4 text-blue-600 hover:underline">Nilai Akhir &rarr;</a>
+    <a href="{{ route('final-grades.index', $class) }}" class="ml-4 text-blue-600 hover:underline">Nilai Akhir</a>
+    <a href="{{ route('announcements.index', $class) }}" class="ml-4 text-blue-600 hover:underline">Pengumuman &rarr;</a>
 </div>
 <p class="mb-4 text-sm text-gray-500">
                     Tahun Ajaran: <strong>{{ $class->academicYear->year }} ({{ ucfirst($class->academicYear->semester) }})</strong>

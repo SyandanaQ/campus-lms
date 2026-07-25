@@ -19,6 +19,9 @@ use App\Http\Controllers\StudentQuizController;
 use App\Http\Controllers\LecturerGradeController;
 use App\Http\Controllers\StudentGradeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LecturerAnnouncementController;
+use App\Http\Controllers\AdminAnnouncementController;
+use App\Http\Controllers\StudentAnnouncementController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,6 +45,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('lecturers', LecturerController::class);
     Route::resource('students', StudentController::class);
     Route::resource('classes', ClassRoomController::class)->parameters(['classes' => 'class']);
+    Route::get('/pengumuman-global', [AdminAnnouncementController::class, 'index'])->name('admin-announcements.index');
+    Route::post('/pengumuman-global', [AdminAnnouncementController::class, 'store'])->name('admin-announcements.store');
+    Route::delete('/pengumuman-global/{announcement}', [AdminAnnouncementController::class, 'destroy'])->name('admin-announcements.destroy');
 });
 
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
@@ -57,6 +63,7 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::post('/kuis/{quiz}/submit', [StudentQuizController::class, 'submit'])->name('student-quizzes.submit');
     Route::get('/kuis/{quiz}/hasil-saya', [StudentQuizController::class, 'result'])->name('student-quizzes.result');
     Route::get('/nilai-saya', [StudentGradeController::class, 'index'])->name('student-grades.index');
+    Route::get('/pengumuman-saya', [StudentAnnouncementController::class, 'index'])->name('student-announcements.index');
 });
 
 Route::middleware(['auth', 'role:dosen'])->group(function () {
@@ -78,5 +85,8 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
     Route::get('/kuis/{quiz}/hasil', [LecturerQuizController::class, 'results'])->name('quizzes.results');
     Route::get('/kelas-saya/{class}/nilai', [LecturerGradeController::class, 'index'])->name('final-grades.index');
     Route::post('/kelas-saya/{class}/nilai', [LecturerGradeController::class, 'store'])->name('final-grades.store');
+    Route::get('/kelas-saya/{class}/pengumuman', [LecturerAnnouncementController::class, 'index'])->name('announcements.index');
+    Route::post('/kelas-saya/{class}/pengumuman', [LecturerAnnouncementController::class, 'store'])->name('announcements.store');
+    Route::delete('/pengumuman/{announcement}', [LecturerAnnouncementController::class, 'destroy'])->name('announcements.destroy');
 });
 require __DIR__.'/auth.php';

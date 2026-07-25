@@ -49,4 +49,9 @@ class ClassRoom extends Model
     {
         return $this->hasMany(FinalGrade::class, 'class_id');
     }
+
+    public function announcements()
+    {
+        return $this->hasMany(Announcement::class, 'class_id');
+    }
 }
