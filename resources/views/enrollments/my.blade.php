@@ -43,6 +43,7 @@
     <a href="{{ route('student-materials.index', $enrollment->classRoom) }}" class="text-blue-600 hover:underline text-sm">Materi</a>
     <a href="{{ route('student-assignments.index', $enrollment->classRoom) }}" class="text-blue-600 hover:underline text-sm ml-2">Tugas</a>
     <a href="{{ route('student-quizzes.index', $enrollment->classRoom) }}" class="text-blue-600 hover:underline text-sm ml-2">Kuis</a>
+    <a href="{{ route('forum.index', $enrollment->classRoom) }}" class="text-blue-600 hover:underline text-sm ml-2">Forum</a>
 </td>
                             <td class="py-2">
                                     <form action="{{ route('enrollments.destroy', $enrollment) }}" method="POST" onsubmit="return confirm('Yakin batalkan KRS ini?')">

@@ -22,6 +22,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LecturerAnnouncementController;
 use App\Http\Controllers\AdminAnnouncementController;
 use App\Http\Controllers\StudentAnnouncementController;
+use App\Http\Controllers\ForumController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +36,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/kelas/{class}/forum', [ForumController::class, 'index'])->name('forum.index');
+    Route::post('/kelas/{class}/forum', [ForumController::class, 'store'])->name('forum.store');
+    Route::get('/forum/{thread}', [ForumController::class, 'show'])->name('forum.show');
+    Route::post('/forum/{thread}/komentar', [ForumController::class, 'storeComment'])->name('forum.comment');
+    Route::delete('/forum/{thread}', [ForumController::class, 'destroyThread'])->name('forum.thread.destroy');
+    Route::delete('/forum-komentar/{comment}', [ForumController::class, 'destroyComment'])->name('forum.comment.destroy');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {

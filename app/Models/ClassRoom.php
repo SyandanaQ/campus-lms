@@ -54,4 +54,9 @@ class ClassRoom extends Model
     {
         return $this->hasMany(Announcement::class, 'class_id');
     }
+
+    public function forumThreads()
+    {
+        return $this->hasMany(ForumThread::class, 'class_id');
+    }
 }
