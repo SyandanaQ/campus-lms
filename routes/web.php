@@ -95,5 +95,6 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
     Route::get('/kelas-saya/{class}/pengumuman', [LecturerAnnouncementController::class, 'index'])->name('announcements.index');
     Route::post('/kelas-saya/{class}/pengumuman', [LecturerAnnouncementController::class, 'store'])->name('announcements.store');
     Route::delete('/pengumuman/{announcement}', [LecturerAnnouncementController::class, 'destroy'])->name('announcements.destroy');
+    Route::get('/kelas-saya/{class}/nilai/export', [LecturerGradeController::class, 'export'])->name('final-grades.export');
 });
 require __DIR__.'/auth.php';

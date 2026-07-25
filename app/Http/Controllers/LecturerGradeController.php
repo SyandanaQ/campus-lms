@@ -52,4 +52,39 @@ class LecturerGradeController extends Controller
 
         return redirect()->route('final-grades.index', $class)->with('success', 'Nilai akhir berhasil disimpan.');
     }
+
+    public function export(ClassRoom $class)
+    {
+        $this->authorizeClass($class);
+
+        $students = $class->enrollments()->with('student.user')->get()->pluck('student');
+        $grades = FinalGrade::where('class_id', $class->id)->get()->keyBy('student_id');
+
+        $filename = 'nilai-' . str_replace(' ', '-', strtolower($class->course->name)) . '-' . $class->class_name . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ];
+
+        $callback = function () use ($students, $grades) {
+            $file = fopen('php://output', 'w');
+
+            fputcsv($file, ['NIM', 'Nama', 'Nilai', 'Huruf']);
+
+            foreach ($students as $student) {
+                $grade = $grades->get($student->id);
+                fputcsv($file, [
+                    $student->nim,
+                    $student->user->name,
+                    $grade->score ?? '-',
+                    $grade->letter ?? '-',
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

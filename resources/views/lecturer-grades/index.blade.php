@@ -14,6 +14,9 @@
 
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
                 <a href="{{ route('lecturer-classes.show', $class) }}" class="text-blue-600 hover:underline text-sm">&larr; Kembali ke Detail Kelas</a>
+                <a href="{{ route('final-grades.export', $class) }}" class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
+                    Export ke CSV
+                </a>
             </div>
 
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
