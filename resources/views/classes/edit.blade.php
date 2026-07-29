@@ -7,15 +7,15 @@
 
     <div class="py-12">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <x-card>
 
-                <form action="{{ route('classes.update', $class) }}" method="POST">
+                <form action="{{ route('classes.update', $class) }}" method="POST" class="space-y-5">
                     @csrf
                     @method('PUT')
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Mata Kuliah</label>
-                        <select name="course_id" class="w-full border-gray-300 rounded shadow-sm">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Mata Kuliah</label>
+                        <select name="course_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             @foreach ($courses as $course)
                                 <option value="{{ $course->id }}" {{ old('course_id', $class->course_id) == $course->id ? 'selected' : '' }}>
                                     {{ $course->code }} - {{ $course->name }}
@@ -23,13 +23,13 @@
                             @endforeach
                         </select>
                         @error('course_id')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Dosen Pengampu</label>
-                        <select name="lecturer_id" class="w-full border-gray-300 rounded shadow-sm">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Dosen Pengampu</label>
+                        <select name="lecturer_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             @foreach ($lecturers as $lecturer)
                                 <option value="{{ $lecturer->id }}" {{ old('lecturer_id', $class->lecturer_id) == $lecturer->id ? 'selected' : '' }}>
                                     {{ $lecturer->user->name }}
@@ -37,13 +37,13 @@
                             @endforeach
                         </select>
                         @error('lecturer_id')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Tahun Ajaran</label>
-                        <select name="academic_year_id" class="w-full border-gray-300 rounded shadow-sm">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Tahun Ajaran</label>
+                        <select name="academic_year_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             @foreach ($academicYears as $academicYear)
                                 <option value="{{ $academicYear->id }}" {{ old('academic_year_id', $class->academic_year_id) == $academicYear->id ? 'selected' : '' }}>
                                     {{ $academicYear->year }} ({{ ucfirst($academicYear->semester) }}) {{ $academicYear->is_active ? '- Aktif' : '' }}
@@ -51,35 +51,20 @@
                             @endforeach
                         </select>
                         @error('academic_year_id')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Nama Kelas</label>
-                        <input type="text" name="class_name" value="{{ old('class_name', $class->class_name) }}"
-                               class="w-full border-gray-300 rounded shadow-sm">
-                        @error('class_name')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-input name="class_name" label="Nama Kelas" :value="$class->class_name" />
+                    <x-input name="capacity" label="Kapasitas" type="number" :value="$class->capacity" />
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Kapasitas</label>
-                        <input type="number" name="capacity" value="{{ old('capacity', $class->capacity) }}" min="1" max="200"
-                               class="w-full border-gray-300 rounded shadow-sm">
-                        @error('capacity')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                    <div class="flex items-center gap-3">
+                        <x-button>Update</x-button>
+                        <a href="{{ route('classes.index') }}" class="text-sm text-gray-600 hover:text-gray-800">Batal</a>
                     </div>
-
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                        Update
-                    </button>
-                    <a href="{{ route('classes.index') }}" class="ml-2 text-gray-600">Batal</a>
                 </form>
 
-            </div>
+            </x-card>
         </div>
     </div>
 </x-app-layout>

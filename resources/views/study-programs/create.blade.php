@@ -7,23 +7,16 @@
 
     <div class="py-12">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <x-card>
 
-                <form action="{{ route('study-programs.store') }}" method="POST">
+                <form action="{{ route('study-programs.store') }}" method="POST" class="space-y-5">
                     @csrf
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Nama Program Studi</label>
-                        <input type="text" name="name" value="{{ old('name') }}"
-                               class="w-full border-gray-300 rounded shadow-sm">
-                        @error('name')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-input name="name" label="Nama Program Studi" />
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Fakultas</label>
-                        <select name="faculty_id" class="w-full border-gray-300 rounded shadow-sm">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Fakultas</label>
+                        <select name="faculty_id" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="">-- Pilih Fakultas --</option>
                             @foreach ($faculties as $faculty)
                                 <option value="{{ $faculty->id }}" {{ old('faculty_id') == $faculty->id ? 'selected' : '' }}>
@@ -32,29 +25,29 @@
                             @endforeach
                         </select>
                         @error('faculty_id')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Jenjang</label>
-                        <select name="level" class="w-full border-gray-300 rounded shadow-sm">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Jenjang</label>
+                        <select name="level" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="S1" {{ old('level') == 'S1' ? 'selected' : '' }}>S1</option>
                             <option value="S2" {{ old('level') == 'S2' ? 'selected' : '' }}>S2</option>
                             <option value="S3" {{ old('level') == 'S3' ? 'selected' : '' }}>S3</option>
                         </select>
                         @error('level')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                        Simpan
-                    </button>
-                    <a href="{{ route('study-programs.index') }}" class="ml-2 text-gray-600">Batal</a>
+                    <div class="flex items-center gap-3">
+                        <x-button>Simpan</x-button>
+                        <a href="{{ route('study-programs.index') }}" class="text-sm text-gray-600 hover:text-gray-800">Batal</a>
+                    </div>
                 </form>
 
-            </div>
+            </x-card>
         </div>
     </div>
 </x-app-layout>

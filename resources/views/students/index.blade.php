@@ -6,56 +6,61 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <x-card>
 
                 @if (session('success'))
-                    <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
-                        {{ session('success') }}
-                    </div>
+                    <x-alert type="success" class="mb-4">{{ session('success') }}</x-alert>
                 @endif
 
                 @if (session('error'))
-                    <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
-                        {{ session('error') }}
-                    </div>
+                    <x-alert type="error" class="mb-4">{{ session('error') }}</x-alert>
                 @endif
 
-                <a href="{{ route('students.create') }}" class="inline-block mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    + Tambah Mahasiswa
-                </a>
+                <x-button href="{{ route('students.create') }}" class="mb-4"
+                    icon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>'>
+                    Tambah Mahasiswa
+                </x-button>
 
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b">
-                            <th class="py-2">Nama</th>
-                            <th class="py-2">Email</th>
-                            <th class="py-2">NIM</th>
-                            <th class="py-2">Program Studi</th>
-                            <th class="py-2">Angkatan</th>
-                            <th class="py-2 w-40">Aksi</th>
+                        <tr class="border-b border-gray-100">
+                            <th class="py-2 font-medium text-gray-600">Nama</th>
+                            <th class="py-2 font-medium text-gray-600">Email</th>
+                            <th class="py-2 font-medium text-gray-600">NIM</th>
+                            <th class="py-2 font-medium text-gray-600">Program Studi</th>
+                            <th class="py-2 font-medium text-gray-600">Angkatan</th>
+                            <th class="py-2 font-medium text-gray-600 w-56">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($students as $student)
-                            <tr class="border-b">
-                                <td class="py-2">{{ $student->user->name }}</td>
-                                <td class="py-2">{{ $student->user->email }}</td>
-                                <td class="py-2">{{ $student->nim }}</td>
-                                <td class="py-2">{{ $student->studyProgram->name }}</td>
-                                <td class="py-2">{{ $student->angkatan }}</td>
-                                <td class="py-2">
-                                    <a href="{{ route('students.edit', $student) }}" class="text-blue-600 hover:underline">Edit</a>
-                                    <form action="{{ route('students.destroy', $student) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus mahasiswa ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:underline ml-2">Hapus</button>
-                                    </form>
+                            <tr class="border-b border-gray-50">
+                                <td class="py-3 text-gray-800">{{ $student->user->name }}</td>
+                                <td class="py-3 text-gray-800">{{ $student->user->email }}</td>
+                                <td class="py-3 text-gray-800">{{ $student->nim }}</td>
+                                <td class="py-3 text-gray-800">{{ $student->studyProgram->name }}</td>
+                                <td class="py-3 text-gray-800">{{ $student->angkatan }}</td>
+                                <td class="py-3">
+                                    <div class="flex items-center gap-2">
+                                        <x-button href="{{ route('students.edit', $student) }}" variant="primary" size="sm"
+                                            icon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828H9V13z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19h14" /></svg>'>
+                                            Edit
+                                        </x-button>
+                                        <form action="{{ route('students.destroy', $student) }}" method="POST" onsubmit="return confirm('Yakin hapus mahasiswa ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <x-button variant="danger" size="sm"
+                                                icon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>'>
+                                                Hapus
+                                            </x-button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="py-4 text-gray-500">Belum ada data mahasiswa.</td>
+                                <td colspan="6" class="py-6 text-gray-400 text-center">Belum ada data mahasiswa.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -65,7 +70,7 @@
                     {{ $students->links() }}
                 </div>
 
-            </div>
+            </x-card>
         </div>
     </div>
 </x-app-layout>

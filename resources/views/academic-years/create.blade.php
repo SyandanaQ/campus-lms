@@ -7,47 +7,40 @@
 
     <div class="py-12">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <x-card>
 
-                <form action="{{ route('academic-years.store') }}" method="POST">
+                <form action="{{ route('academic-years.store') }}" method="POST" class="space-y-5">
                     @csrf
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Tahun (contoh: 2025/2026)</label>
-                        <input type="text" name="year" value="{{ old('year') }}"
-                               class="w-full border-gray-300 rounded shadow-sm">
-                        @error('year')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-input name="year" label="Tahun (contoh: 2025/2026)" />
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Semester</label>
-                        <select name="semester" class="w-full border-gray-300 rounded shadow-sm">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Semester</label>
+                        <select name="semester" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="ganjil" {{ old('semester') == 'ganjil' ? 'selected' : '' }}>Ganjil</option>
                             <option value="genap" {{ old('semester') == 'genap' ? 'selected' : '' }}>Genap</option>
                         </select>
                         @error('semester')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
+                    <div>
                         <label class="inline-flex items-center">
                             <input type="checkbox" name="is_active" value="1" {{ old('is_active') ? 'checked' : '' }}
-                                   class="rounded border-gray-300">
+                                   class="rounded border-gray-300 text-blue-700 focus:ring-blue-500">
                             <span class="ml-2 text-sm text-gray-700">Jadikan tahun ajaran aktif</span>
                         </label>
                         <p class="text-xs text-gray-500 mt-1">Mengaktifkan ini akan menonaktifkan tahun ajaran lain yang sedang aktif.</p>
                     </div>
 
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                        Simpan
-                    </button>
-                    <a href="{{ route('academic-years.index') }}" class="ml-2 text-gray-600">Batal</a>
+                    <div class="flex items-center gap-3">
+                        <x-button>Simpan</x-button>
+                        <a href="{{ route('academic-years.index') }}" class="text-sm text-gray-600 hover:text-gray-800">Batal</a>
+                    </div>
                 </form>
 
-            </div>
+            </x-card>
         </div>
     </div>
 </x-app-layout>
