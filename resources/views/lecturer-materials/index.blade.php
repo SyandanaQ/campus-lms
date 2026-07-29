@@ -6,103 +6,94 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             @if (session('success'))
-                <div class="p-4 bg-green-100 text-green-700 rounded">
-                    {{ session('success') }}
-                </div>
+                <x-alert type="success">{{ session('success') }}</x-alert>
             @endif
 
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <a href="{{ route('lecturer-classes.show', $class) }}" class="text-blue-600 hover:underline text-sm">&larr; Kembali ke Detail Kelas</a>
-            </div>
+            <x-card>
+                <a href="{{ route('lecturer-classes.show', $class) }}" class="text-blue-700 hover:underline text-sm font-medium">&larr; Kembali ke Detail Kelas</a>
+            </x-card>
 
             <!-- Form Tambah Materi -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6" x-data="{ type: 'pdf' }">
+            <x-card x-data="{ type: 'pdf' }">
                 <h3 class="font-medium text-gray-800 mb-4">Tambah Materi Baru</h3>
 
-                <form action="{{ route('materials.store', $class) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('materials.store', $class) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
                     @csrf
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Judul Materi</label>
-                        <input type="text" name="title" value="{{ old('title') }}"
-                               class="w-full border-gray-300 rounded shadow-sm">
-                        @error('title')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-input name="title" label="Judul Materi" />
 
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Tipe Materi</label>
-                        <select name="type" x-model="type" class="w-full border-gray-300 rounded shadow-sm">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Tipe Materi</label>
+                        <select name="type" x-model="type" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
                             <option value="pdf">File PDF</option>
                             <option value="youtube">Video YouTube</option>
                             <option value="link">Link Lainnya</option>
                         </select>
                         @error('type')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4" x-show="type === 'pdf'">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Upload File PDF (max 10MB)</label>
+                    <div x-show="type === 'pdf'">
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Upload File PDF (max 10MB)</label>
                         <input type="file" name="file" accept="application/pdf"
-                               class="w-full border-gray-300 rounded shadow-sm">
+                               class="w-full rounded-lg border-gray-300 shadow-sm text-sm">
                         @error('file')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror
                     </div>
 
-                    <div class="mb-4" x-show="type === 'youtube' || type === 'link'">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">URL</label>
-                        <input type="text" name="url" value="{{ old('url') }}" placeholder="https://..."
-                               class="w-full border-gray-300 rounded shadow-sm">
-                        @error('url')
-                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                    <div x-show="type === 'youtube' || type === 'link'">
+                        <x-input name="url" label="URL" />
                     </div>
 
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    <x-button icon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>'>
                         Tambah Materi
-                    </button>
+                    </x-button>
                 </form>
-            </div>
+            </x-card>
 
             <!-- Daftar Materi -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <x-card>
                 <h3 class="font-medium text-gray-800 mb-4">Daftar Materi</h3>
 
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b">
-                            <th class="py-2">Judul</th>
-                            <th class="py-2">Tipe</th>
-                            <th class="py-2 w-24">Aksi</th>
+                        <tr class="border-b border-gray-100">
+                            <th class="py-2 font-medium text-gray-600">Judul</th>
+                            <th class="py-2 font-medium text-gray-600">Tipe</th>
+                            <th class="py-2 font-medium text-gray-600 w-32">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($materials as $material)
-                            <tr class="border-b">
-                                <td class="py-2">{{ $material->title }}</td>
-                                <td class="py-2 uppercase text-xs">{{ $material->type }}</td>
-                                <td class="py-2">
+                            <tr class="border-b border-gray-50">
+                                <td class="py-3 text-gray-800">{{ $material->title }}</td>
+                                <td class="py-3">
+                                    <x-badge color="blue">{{ strtoupper($material->type) }}</x-badge>
+                                </td>
+                                <td class="py-3">
                                     <form action="{{ route('materials.destroy', $material) }}" method="POST" onsubmit="return confirm('Yakin hapus materi ini?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:underline text-sm">Hapus</button>
+                                        <x-button variant="danger" size="sm"
+                                            icon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>'>
+                                            Hapus
+                                        </x-button>
                                     </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="py-4 text-gray-500">Belum ada materi.</td>
+                                <td colspan="3" class="py-6 text-gray-400 text-center">Belum ada materi.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
-            </div>
+            </x-card>
 
         </div>
     </div>

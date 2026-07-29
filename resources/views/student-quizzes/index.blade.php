@@ -6,49 +6,49 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
 
             @if (session('error'))
-                <div class="p-4 bg-red-100 text-red-700 rounded">{{ session('error') }}</div>
+                <x-alert type="error">{{ session('error') }}</x-alert>
             @endif
 
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <a href="{{ route('enrollments.my') }}" class="text-blue-600 hover:underline text-sm">&larr; Kembali ke KRS Saya</a>
-            </div>
+            <x-card>
+                <a href="{{ route('enrollments.my') }}" class="text-blue-700 hover:underline text-sm font-medium">&larr; Kembali ke KRS Saya</a>
+            </x-card>
 
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <x-card>
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b">
-                            <th class="py-2">Judul Kuis</th>
-                            <th class="py-2">Jumlah Soal</th>
-                            <th class="py-2 w-40">Status</th>
+                        <tr class="border-b border-gray-100">
+                            <th class="py-2 font-medium text-gray-600">Judul Kuis</th>
+                            <th class="py-2 font-medium text-gray-600">Jumlah Soal</th>
+                            <th class="py-2 font-medium text-gray-600 w-48">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($quizzes as $quiz)
                             @php $attempt = $myAttempts->get($quiz->id); @endphp
-                            <tr class="border-b">
-                                <td class="py-2">{{ $quiz->title }}</td>
-                                <td class="py-2">{{ $quiz->questions_count }}</td>
-                                <td class="py-2">
+                            <tr class="border-b border-gray-50">
+                                <td class="py-3 text-gray-800">{{ $quiz->title }}</td>
+                                <td class="py-3 text-gray-800">{{ $quiz->questions_count }}</td>
+                                <td class="py-3">
                                     @if ($attempt)
-                                        <a href="{{ route('student-quizzes.result', $quiz) }}" class="text-blue-600 hover:underline text-sm">
+                                        <x-button href="{{ route('student-quizzes.result', $quiz) }}" variant="outline" size="sm">
                                             Lihat Hasil (Skor: {{ $attempt->score }})
-                                        </a>
+                                        </x-button>
                                     @else
-                                        <a href="{{ route('student-quizzes.show', $quiz) }}" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                                        <x-button href="{{ route('student-quizzes.show', $quiz) }}" size="sm">
                                             Kerjakan
-                                        </a>
+                                        </x-button>
                                     @endif
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="3" class="py-4 text-gray-500">Belum ada kuis untuk kelas ini.</td></tr>
+                            <tr><td colspan="3" class="py-6 text-gray-400 text-center">Belum ada kuis untuk kelas ini.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
-            </div>
+            </x-card>
 
         </div>
     </div>
