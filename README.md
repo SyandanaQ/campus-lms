@@ -39,7 +39,21 @@ Learning Management System (LMS) untuk jenjang perguruan tinggi, dibangun sebaga
 
 ## Status Project
 
-MVP fungsional penuh — seluruh alur akademik inti (dari administrasi data hingga penilaian dan komunikasi) sudah selesai dan teruji. Saat ini dalam tahap pengembangan lanjutan (UI polish, testing tambahan).
+MVP fungsional penuh dengan UI yang konsisten — seluruh alur akademik inti (dari administrasi data hingga penilaian dan komunikasi) sudah selesai, teruji, dan tampilan sudah dirapikan menggunakan komponen Blade reusable. Pengembangan lanjutan (testing otomatis tambahan, kemungkinan versi mobile) masih terbuka ke depannya.
+
+## Screenshot
+
+### Landing Page
+![Landing Page](docs/screenshots/landing-page.png)
+
+### Dashboard Admin
+![Dashboard Admin](docs/screenshots/dashboard-admin.png)
+
+### Manajemen Data (Contoh: Fakultas)
+![CRUD Fakultas](docs/screenshots/crud-tahun-ajaran.png)
+
+### Dashboard Mahasiswa
+![Dashboard Mahasiswa](docs/screenshots/krs-mahasiswa.png)
 
 ## Instalasi & Setup Lokal
 
