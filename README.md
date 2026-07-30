@@ -49,7 +49,7 @@ MVP fungsional penuh dengan UI yang konsisten — seluruh alur akademik inti (da
 ### Dashboard Admin
 ![Dashboard Admin](docs/screenshots/dashboard-admin.png)
 
-### Manajemen Data (Contoh: Fakultas)
+### Manajemen Data (Contoh: Tahun Ajaran)
 ![CRUD Fakultas](docs/screenshots/crud-tahun-ajaran.png)
 
 ### Dashboard Mahasiswa
