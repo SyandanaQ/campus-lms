@@ -40,7 +40,7 @@
                     <div x-show="type === 'pdf'">
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">Upload File PDF (max 10MB)</label>
                         <input type="file" name="file" accept="application/pdf"
-                               class="w-full rounded-lg border-gray-300 shadow-sm text-sm">
+                               class="w-full border-gray-300 shadow-sm text-sm">
                         @error('file')
                             <p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>
                         @enderror

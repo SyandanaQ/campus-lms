@@ -6,39 +6,33 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             @if (session('success'))
-                <div class="p-4 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
+                <x-alert type="success">{{ session('success') }}</x-alert>
             @endif
 
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <a href="{{ route('lecturer-classes.show', $class) }}" class="text-blue-600 hover:underline text-sm">&larr; Kembali ke Detail Kelas</a>
-            </div>
+            <x-card>
+                <a href="{{ route('lecturer-classes.show', $class) }}" class="text-blue-700 hover:underline text-sm font-medium">&larr; Kembali ke Detail Kelas</a>
+            </x-card>
 
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <x-card>
                 <h3 class="font-medium text-gray-800 mb-4">Buat Pengumuman</h3>
-                <form action="{{ route('announcements.store', $class) }}" method="POST">
+                <form action="{{ route('announcements.store', $class) }}" method="POST" class="space-y-5">
                     @csrf
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Judul</label>
-                        <input type="text" name="title" value="{{ old('title') }}" class="w-full border-gray-300 rounded shadow-sm">
-                        @error('title')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
+                    <x-input name="title" label="Judul" />
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Isi Pengumuman</label>
+                        <textarea name="body" rows="4" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('body') }}</textarea>
+                        @error('body')<p class="text-red-600 text-sm mt-1.5">{{ $message }}</p>@enderror
                     </div>
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700 mb-1">Isi Pengumuman</label>
-                        <textarea name="body" rows="4" class="w-full border-gray-300 rounded shadow-sm">{{ old('body') }}</textarea>
-                        @error('body')<p class="text-red-600 text-sm mt-1">{{ $message }}</p>@enderror
-                    </div>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                        Publikasikan
-                    </button>
+                    <x-button>Publikasikan</x-button>
                 </form>
-            </div>
+            </x-card>
 
             <div class="space-y-4">
                 @forelse ($announcements as $announcement)
-                    <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                    <x-card>
                         <div class="flex justify-between items-start">
                             <div>
                                 <h4 class="font-medium text-gray-800">{{ $announcement->title }}</h4>
@@ -47,15 +41,15 @@
                             <form action="{{ route('announcements.destroy', $announcement) }}" method="POST" onsubmit="return confirm('Yakin hapus pengumuman ini?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:underline text-sm">Hapus</button>
+                                <x-button variant="danger" size="sm">Hapus</x-button>
                             </form>
                         </div>
                         <p class="text-gray-600 mt-3 whitespace-pre-line">{{ $announcement->body }}</p>
-                    </div>
+                    </x-card>
                 @empty
-                    <div class="bg-white shadow-sm sm:rounded-lg p-6 text-gray-500">
-                        Belum ada pengumuman untuk kelas ini.
-                    </div>
+                    <x-card>
+                        <p class="text-gray-400 text-center py-2">Belum ada pengumuman untuk kelas ini.</p>
+                    </x-card>
                 @endforelse
             </div>
 

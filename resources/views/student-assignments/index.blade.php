@@ -63,7 +63,7 @@
                                 <label class="block text-sm text-gray-700 mb-1.5">
                                     {{ $mySubmission ? 'Ganti File (Submit Ulang)' : 'Upload File Tugas' }}
                                 </label>
-                                <input type="file" name="file" class="w-full rounded-lg border-gray-300 shadow-sm text-sm">
+                                <input type="file" name="file" class="w-full border-gray-300 shadow-sm text-sm">
                             </div>
                             <x-button size="sm">Submit</x-button>
                         </form>
