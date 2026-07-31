@@ -41,6 +41,14 @@ Learning Management System (LMS) untuk jenjang perguruan tinggi, dibangun sebaga
 
 MVP fungsional penuh dengan UI yang konsisten — seluruh alur akademik inti (dari administrasi data hingga penilaian dan komunikasi) sudah selesai, teruji, dan tampilan sudah dirapikan menggunakan komponen Blade reusable. Pengembangan lanjutan (testing otomatis tambahan, kemungkinan versi mobile) masih terbuka ke depannya.
 
+## Testing
+
+Project ini dilengkapi 51 automated test (Pest) yang mencakup alur kritis: proteksi role & kepemilikan data, validasi bisnis (deadline, kapasitas, auto-grading), dan integritas database.
+
+```bash
+php artisan test
+```
+
 ## Screenshot
 
 ### Landing Page
