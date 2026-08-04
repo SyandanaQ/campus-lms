@@ -17,11 +17,28 @@
                     <x-alert type="error" class="mb-4">{{ session('error') }}</x-alert>
                 @endif
 
-                <x-button href="{{ route('students.create') }}" class="mb-4"
-                    icon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>'>
-                    Tambah Mahasiswa
-                </x-button>
+<div class="flex items-center gap-2 mb-4">
+                    <x-button href="{{ route('students.create') }}"
+                        icon='<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>'>
+                        Tambah Mahasiswa
+                    </x-button>
+                    <x-button href="{{ route('students.import') }}" variant="secondary">
+                        Import CSV
+                    </x-button>
+                </div>
 
+                @if (session('import_errors') && count(session('import_errors')) > 0)
+                    <x-alert type="warning" class="mb-4">
+                        <strong>Detail baris yang gagal:</strong>
+                        <ul class="list-disc ml-5 mt-1">
+                            @foreach (session('import_errors') as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </x-alert>
+                @endif
+
+                
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="border-b border-gray-100">

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
+
 class StudentController extends Controller
 {
     public function index()
@@ -80,6 +81,95 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('success', 'Mahasiswa berhasil diperbarui.');
     }
 
+    public function downloadTemplate()
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="template-import-mahasiswa.csv"',
+        ];
+
+        $callback = function () {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['name', 'email', 'nim', 'study_program', 'angkatan']);
+            fputcsv($file, ['Contoh Nama', 'contoh@email.com', '2024001099', 'Teknik Informatika', '2024']);
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function showImport()
+    {
+        return view('students.import');
+    }
+
+public function processImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt',
+        ]);
+
+        $filePath = $request->file('file')->getRealPath();
+        $firstLine = fgets(fopen($filePath, 'r'));
+        $delimiter = substr_count($firstLine, ';') > substr_count($firstLine, ',') ? ';' : ',';
+
+        $file = fopen($filePath, 'r');
+        $header = fgetcsv($file, 0, $delimiter);
+
+        $success = 0;
+        $errors = [];
+        $rowNumber = 1;
+
+        while (($row = fgetcsv($file, 0, $delimiter)) !== false) {
+            $rowNumber++;
+
+            if (count($row) < 5) {
+                $errors[] = "Baris {$rowNumber}: kolom tidak lengkap.";
+                continue;
+            }
+
+            [$name, $email, $nim, $studyProgramName, $angkatan] = $row;
+
+            if (User::where('email', $email)->exists()) {
+                $errors[] = "Baris {$rowNumber}: email '{$email}' sudah terdaftar.";
+                continue;
+            }
+
+            if (Student::where('nim', $nim)->exists()) {
+                $errors[] = "Baris {$rowNumber}: NIM '{$nim}' sudah terdaftar.";
+                continue;
+            }
+
+            $studyProgram = StudyProgram::where('name', trim($studyProgramName))->first();
+
+            if (!$studyProgram) {
+                $errors[] = "Baris {$rowNumber}: program studi '{$studyProgramName}' tidak ditemukan.";
+                continue;
+            }
+
+            $user = User::create([
+                'name' => trim($name),
+                'email' => trim($email),
+                'password' => Hash::make('password123'),
+            ]);
+            $user->assignRole('mahasiswa');
+
+            Student::create([
+                'user_id' => $user->id,
+                'nim' => trim($nim),
+                'study_program_id' => $studyProgram->id,
+                'angkatan' => trim($angkatan),
+            ]);
+
+            $success++;
+        }
+
+        fclose($file);
+
+        return redirect()->route('students.index')->with('success', "Import selesai: {$success} berhasil, " . count($errors) . " gagal.")
+            ->with('import_errors', $errors);
+    }
+    
     public function destroy(Student $student)
     {
         $enrollmentCount = $student->enrollments()->count();
