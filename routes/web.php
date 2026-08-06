@@ -76,6 +76,7 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::post('/kuis/{quiz}/submit', [StudentQuizController::class, 'submit'])->name('student-quizzes.submit');
     Route::get('/kuis/{quiz}/hasil-saya', [StudentQuizController::class, 'result'])->name('student-quizzes.result');
     Route::get('/nilai-saya', [StudentGradeController::class, 'index'])->name('student-grades.index');
+    Route::get('/nilai-saya/export-pdf', [StudentGradeController::class, 'exportPdf'])->name('student-grades.export-pdf');
     Route::get('/pengumuman-saya', [StudentAnnouncementController::class, 'index'])->name('student-announcements.index');
 });
 

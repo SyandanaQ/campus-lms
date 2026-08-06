@@ -5,11 +5,16 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+<div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <x-card>
+            <x-card>
+                <x-button href="{{ route('student-grades.export-pdf') }}" variant="secondary" size="sm">
+                    Download Transkrip (PDF)
+                </x-button>
+            </x-card>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">                <x-card>
                     <p class="text-sm text-gray-500">IPK (Indeks Prestasi Kumulatif)</p>
                     <p class="text-3xl font-bold text-gray-800 mt-1">
                         {{ $ipk ?? '-' }}
