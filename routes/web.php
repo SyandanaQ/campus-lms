@@ -42,12 +42,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/forum/{thread}/komentar', [ForumController::class, 'storeComment'])->name('forum.comment');
     Route::delete('/forum/{thread}', [ForumController::class, 'destroyThread'])->name('forum.thread.destroy');
     Route::delete('/forum-komentar/{comment}', [ForumController::class, 'destroyComment'])->name('forum.comment.destroy');
-    Route::get('/students/import/template', [StudentController::class, 'downloadTemplate'])->name('students.import.template');
-    Route::get('/students/import', [StudentController::class, 'showImport'])->name('students.import');
-    Route::post('/students/import', [StudentController::class, 'processImport'])->name('students.import.process');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/students/import/template', [StudentController::class, 'downloadTemplate'])->name('students.import.template');
+    Route::get('/students/import', [StudentController::class, 'showImport'])->name('students.import');
+    Route::post('/students/import', [StudentController::class, 'processImport'])->name('students.import.process');
+    Route::get('/lecturers/import/template', [LecturerController::class, 'downloadTemplate'])->name('lecturers.import.template');
+    Route::get('/lecturers/import', [LecturerController::class, 'showImport'])->name('lecturers.import');
+    Route::post('/lecturers/import', [LecturerController::class, 'processImport'])->name('lecturers.import.process');
     Route::resource('faculties', FacultyController::class);
     Route::resource('study-programs', StudyProgramController::class);
     Route::resource('courses', CourseController::class);

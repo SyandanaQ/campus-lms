@@ -76,6 +76,93 @@ class LecturerController extends Controller
         return redirect()->route('lecturers.index')->with('success', 'Dosen berhasil diperbarui.');
     }
 
+    public function downloadTemplate()
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="template-import-dosen.csv"',
+        ];
+
+        $callback = function () {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['name', 'email', 'nidn', 'study_program']);
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function showImport()
+    {
+        return view('lecturers.import');
+    }
+
+    public function processImport(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt',
+        ]);
+
+        $filePath = $request->file('file')->getRealPath();
+        $firstLine = fgets(fopen($filePath, 'r'));
+        $delimiter = substr_count($firstLine, ';') > substr_count($firstLine, ',') ? ';' : ',';
+
+        $file = fopen($filePath, 'r');
+        $header = fgetcsv($file, 0, $delimiter);
+
+        $success = 0;
+        $errors = [];
+        $rowNumber = 1;
+
+        while (($row = fgetcsv($file, 0, $delimiter)) !== false) {
+            $rowNumber++;
+
+            if (count($row) < 4) {
+                $errors[] = "Baris {$rowNumber}: kolom tidak lengkap.";
+                continue;
+            }
+
+            [$name, $email, $nidn, $studyProgramName] = $row;
+
+            if (User::where('email', $email)->exists()) {
+                $errors[] = "Baris {$rowNumber}: email '{$email}' sudah terdaftar.";
+                continue;
+            }
+
+            if (Lecturer::where('nidn', $nidn)->exists()) {
+                $errors[] = "Baris {$rowNumber}: NIDN '{$nidn}' sudah terdaftar.";
+                continue;
+            }
+
+            $studyProgram = StudyProgram::where('name', trim($studyProgramName))->first();
+
+            if (!$studyProgram) {
+                $errors[] = "Baris {$rowNumber}: program studi '{$studyProgramName}' tidak ditemukan.";
+                continue;
+            }
+
+            $user = User::create([
+                'name' => trim($name),
+                'email' => trim($email),
+                'password' => Hash::make('password123'),
+            ]);
+            $user->assignRole('dosen');
+
+            Lecturer::create([
+                'user_id' => $user->id,
+                'nidn' => trim($nidn),
+                'study_program_id' => $studyProgram->id,
+            ]);
+
+            $success++;
+        }
+
+        fclose($file);
+
+        return redirect()->route('lecturers.index')->with('success', "Import selesai: {$success} berhasil, " . count($errors) . " gagal.")
+            ->with('import_errors', $errors);
+    }
+
     public function destroy(Lecturer $lecturer)
     {
         $activeClassCount = $lecturer->classes()->count();
