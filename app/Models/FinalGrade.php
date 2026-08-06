@@ -28,4 +28,15 @@ class FinalGrade extends Model
             default => 'E',
         };
     }
+
+    public static function letterToPoint(string $letter): float
+    {
+        return match ($letter) {
+            'A' => 4.00,
+            'B' => 3.00,
+            'C' => 2.00,
+            'D' => 1.00,
+            default => 0.00,
+        };
+    }
 }

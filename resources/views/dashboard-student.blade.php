@@ -24,12 +24,12 @@
             </div>
 
             <x-card>
-                <p class="text-sm text-gray-500">Rata-rata Nilai Akhir</p>
+                <p class="text-sm text-gray-500">IPK (Indeks Prestasi Kumulatif)</p>
                 <p class="text-3xl font-bold text-gray-800 mt-1">
-                    {{ $averageScore ?? 'Belum ada nilai' }}
+                    {{ $ipk ?? 'Belum ada nilai' }}
                 </p>
             </x-card>
-
+            
         </div>
     </div>
 </x-app-layout>

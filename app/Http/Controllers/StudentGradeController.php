@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FinalGrade;
 use Illuminate\Support\Facades\Auth;
 
 class StudentGradeController extends Controller
@@ -12,6 +13,19 @@ class StudentGradeController extends Controller
 
         $grades = $student->finalGrades()->with('classRoom.course', 'classRoom.academicYear')->get();
 
-        return view('student-grades.index', compact('grades'));
+        $totalSks = 0;
+        $totalPointXSks = 0;
+
+        foreach ($grades as $grade) {
+            $sks = $grade->classRoom->course->sks;
+            $point = FinalGrade::letterToPoint($grade->letter);
+
+            $totalSks += $sks;
+            $totalPointXSks += ($point * $sks);
+        }
+
+        $ipk = $totalSks > 0 ? round($totalPointXSks / $totalSks, 2) : null;
+
+        return view('student-grades.index', compact('grades', 'ipk', 'totalSks'));
     }
 }
